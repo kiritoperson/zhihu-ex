@@ -1,0 +1,37 @@
+<!--pages/detail/detail.wxml-->
+<scroll-view scroll-y="true" class="contain_detail_cnt" style="height:{{winHeight - 40}}px;">
+<!--标题-->
+<view class='box-title'>
+<text class='top-title'>{{data.title}}</text>
+</view>
+
+<!-- 内容 -->
+	<view class="content" scroll-y="true">
+		<block wx:for="{{databody}}">
+			<image class="scrollLoading" src="{{item[0]}}" mode="aspectFill" wx:if="{{item.length === 3}}"/>
+			<view class="contView" wx:else>{{item}}</view>
+		</block>
+	</view>
+
+  <!-- 评论 -->
+	<view class="content-comments">
+		<text class="comments-title">最新评论</text>
+		<view class="comments-box" wx:if="{{comments.length > 0}}">
+			<view class="comments-list" wx:for="{{comments}}" wx:for-item="item" wx:for-index="i">
+				<view class="comments-avatar"><image class="comments-avatar-img" src="{{item.avatar}}"/></view>
+				<view class="comments-main">
+					<view class="comments-author">
+          <image  class="comments-zans" src='../../static/zan.png'></image>
+						<view class="comments-zan">{{item.likes}}</view>
+						<text>{{item.author}}</text>
+					</view>
+					<view class="comments-content">{{item.content}}</view>
+					<view class="comments-data">{{item.times}}</view>
+				</view>
+			</view>
+		</view>
+		<!-- 没有评论 -->
+		<view class="not-comments" wx:else> 暂时还没有评论喔! </view>
+	</view>
+
+</scroll-view>

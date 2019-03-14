@@ -1,0 +1,92 @@
+<!--index.wxml-->
+<!-- loading -->
+
+<view class='swiper-tap'>
+  <view class="swichNav {{currentTab==0 ? 'on' : ''}}" bindtap="swichNav" data-current="0" >日报</view>
+  <view class="swichNav {{currentTab==1 ? 'on' : ''}}" bindtap="swichNav" data-current="1">精选</view>
+</view>
+
+<swiper current="{{currentTab}}" class="swiper-box" duration="300" style="height:{{winHeight - 31}}px" bindchange="bindChange">
+
+     <!-- 日报 -->
+   <swiper-item>
+      <scroll-view class="hot-box" scroll-y="true" upper-threshold="50" 
+                    lower-threshold="100" bindscrolltolower="scrolltolower">
+  <!-- 轮播 -->
+        <swiper class="swiper-boxs"  autoplay duration="300">
+                <swiper-item wx:for="{{topStories}}">
+                <view class='top-text'>
+                <text class="nav_text">{{topStories[index].title}}</text>
+                </view>
+                    <navigator url="../detail/detail?id={{topStories[index].id}}"  style="background-image: url({{item}});">
+                    
+                        <image mode="aspectFill" class="slide-image" src="{{topStories[index].image}}" ></image>
+                    </navigator>
+                </swiper-item>
+            </swiper>
+            <view class="themes-box-top">
+                <text class="themes-box-title">专栏</text>
+                <text class="themes-box-subtitle">你想要知道日报专栏</text>
+            </view>
+            <!-- 日报列表 -->
+ <view class="themes-list">
+
+                <view class="themes-list-box" wx:for="{{dataThemes}}">
+                    <navigator url="../themes/themes?id={{item.news_id}}">
+                        <view class="themes-list-thumbnail">
+                            <image class="themes-list-img" src="{{item.thumbnail}}" />
+                        </view>
+                        <view class="themes-list-main">
+                            <view class="themes-list-name">{{item.title}}</view>
+                            <view class="themes-list-description">{{item.ga_prefix}}</view>
+                        </view>
+                    </navigator>
+                </view>
+
+            </view>
+      </scroll-view>
+   </swiper-item>
+
+
+    <!-- 精选 -->
+   <swiper-item>
+      <scroll-view class="hot-box" scroll-y="true" upper-threshold="50" 
+                    lower-threshold="100" bindscrolltolower="scrolltolower">
+           
+                         <image src='../../static/001.jpg' class='hot-main'>
+                <view class="hot-main-box">
+                    <view class="hot-main-title">精选</view>
+                    <view class="hot-main-subtitle">呈现最新的精选日报</view>
+                </view>
+            </image>
+
+    <view class="hot-box-main">
+                <view wx:for="{{datalist}}" wx:for-item="item" wx:for-index="i">
+                    <view class="hot-box-top">
+                        <text class="hot-box-title">{{datalist[i].dateDay}}</text>
+                    </view>
+                    <view wx:for="{{datalist[i].stories}}" wx:for-index="j" wx:for-item="items">
+                        <navigator id="{{datalist[i].stories[j].id}}" url="../detail/detail?id={{datalist[i].stories[j].id}}">
+                            <view class="list-box">
+                                <view class="list-box-title">{{datalist[i].stories[j].title}}</view>
+                                <view class="list-box-sub">知乎日报</view>
+                            </view>
+                        </navigator>
+                    </view>
+                </view>
+            </view>
+                
+ <!-- 没有更多的时候 -->
+            <view hidden="{{hotshidden}}" class="hot-box-more">
+                <view wx:if="{{hothidden}}">
+                    <image src="/static/loading.gif" mode="aspectFill"/>
+                </view>
+                <view wx:else>
+                    <text> 没有更多了 </text>
+                </view>
+            </view>
+
+      </scroll-view>
+   </swiper-item>
+   
+</swiper>
